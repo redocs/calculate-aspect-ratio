@@ -6,18 +6,25 @@ import ResultText from './components/resultText';
 import Uploader from './components/uploader';
 import ResultImage from './components/resultImage';
 
+const headerHeight = '50px';
+
 const Header = styled.header`
   background: #333;
-  min-height: 70px;
+  min-height: ${headerHeight};
   display: flex;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 `;
 
-const Title = styled.div`
-  font-size: 20px;
+const Title = styled.h1`
+  font-size: 16px;
   font-weight: bolder;
   color: #fff;
+  margin: 0;
+  padding: 0;
 `;
 
 const MainContainer = styled.section`
@@ -25,7 +32,7 @@ const MainContainer = styled.section`
   padding: 0;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - ${headerHeight});
 `;
 
 const Form = styled.form`
@@ -40,7 +47,7 @@ const CenteredSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: ${({ direction }) => (direction ? direction : 'row')};
+  flex-direction: ${({ direction }) => direction || 'row'};
 `;
 
 const Button = styled.button`
@@ -53,12 +60,12 @@ const Button = styled.button`
   font-weight: bolder;
   text-transform: uppercase;
   margin: 10px;
-  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+  visibility: ${({ visible }) => visible || 'hidden'};
 `;
 
 const Flex = styled.div`
   display: flex;
-  flex-direction: ${({ direction }) => (direction ? direction : 'row')};
+  flex-direction: ${({ direction }) => direction || 'row'};
   justify-content: center;
   align-items: center;
 `;
@@ -69,9 +76,15 @@ const FlexRow = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: ${({ ratioCalc }) => (ratioCalc ? '20px' : '99vh')};
+  transition: max-height .2s ease-in-out;
+  form {
+    transition: visibility .2s ease-in-out;
+    visibility: ${({ ratioCalc }) => (ratioCalc ? 'hidden' : 'visible')};
+  }
 `;
 
-const FlexRowLeft = styled.div`
+const FlexRowSecondary = styled.div`
   flex: ${({ cssFlex }) => cssFlex};
   padding: 10px;
   background: #d2d2d2;
@@ -111,7 +124,7 @@ const App = () => {
         <Title>Calculate Aspect Ratio</Title>
       </Header>
       <MainContainer>
-        <FlexRow cssFlex={1}>
+        <FlexRow cssFlex={1} ratioCalc={!!ratio}>
           <Form onSubmit={handleSubmit}>
             <Flex>
               <Flex direction="column">
@@ -147,7 +160,7 @@ const App = () => {
             </Button>
           </Form>
         </FlexRow>
-        <FlexRowLeft cssFlex={1}>
+        <FlexRowSecondary cssFlex={ratio ? 1 : 0}>
           {ratio && (
             <CenteredSection direction="column">
               <ResultText
@@ -161,7 +174,7 @@ const App = () => {
               {imagePreview && <ResultImage ratio={ratio} src={imagePreview} />}
             </CenteredSection>
           )}
-        </FlexRowLeft>
+        </FlexRowSecondary>
       </MainContainer>
     </div>
   );

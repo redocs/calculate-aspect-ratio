@@ -41,7 +41,8 @@ const ResultImage = props => {
     <Width100>
       <SectionContainer>
         <ImageRatio
-          findBackgroundColor={true}
+          backgroundColor="#b2644c"
+          findBackgroundColor={false}
           calcRatio={false}
           ratio={ratio}
           src={src}

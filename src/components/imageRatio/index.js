@@ -25,24 +25,25 @@ const ImageRatio = props => {
     alt
   } = props;
   const [dominantColor, setDominantColor] = React.useState(backgroundColor);
-  const [colorSelected, setColorSelected] = React.useState(false);
   const [ratioCalc, setRatioCalc] = React.useState('');
   const [ratioCalcolated, setRatioCalcolated] = React.useState(false);
 
-  if (backgroundColor && !findBackgroundColor && !colorSelected) {
+  React.useEffect(()=>{
     setDominantColor(backgroundColor);
-    setColorSelected(true);
-  }
+    console.log('setDominantColor')
+  },[backgroundColor])
 
-  if (findBackgroundColor && !colorSelected) {
-    Vibrant.from(src)
-      .getPalette()
-      .then(function(palette) {
-        const vibrantColor = palette.Vibrant.hex;
-        setDominantColor(vibrantColor);
-      });
-    setColorSelected(true);
-  }
+  React.useEffect(()=>{
+    if (findBackgroundColor) {
+      Vibrant.from(src)
+        .getPalette()
+        .then(function(palette) {
+          const vibrantColor = palette.Vibrant.hex;
+          setDominantColor(vibrantColor);
+        });
+    }
+    console.log('findBackgroundColor')
+  },[findBackgroundColor, src])
 
   if (calcRatio && !ratioCalcolated) {
     openFile(src, e => {

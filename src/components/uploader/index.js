@@ -14,7 +14,7 @@ const UploaderInner = styled.div`
 const UploaderContainer = styled.div`
   box-sizing: border-box;
   width: 80%;
-  min-height: 100px;
+  min-height: 60vh;
   display: flex;
   display: ${({ uploaded }) => (uploaded ? 'none' : 'flex')};
   background: #fff;

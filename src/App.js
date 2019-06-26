@@ -52,15 +52,17 @@ const CenteredSection = styled.div`
 
 const Button = styled.button`
   border: 1px solid #636363;
+  border-color: ${({ bordercolor }) => bordercolor || '#636363'};
   line-height: 33px;
   padding: 0 30px;
   font-size: 12px;
-  background: #636363;
-  color: #fff;
+  background: ${({ background }) => background || '#636363'};
+  color: ${({ color }) => color || '#fff'};
   font-weight: bolder;
   text-transform: uppercase;
   margin: 10px;
-  visibility: ${({ visible }) => visible || 'hidden'};
+  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+  cursor: pointer;
 `;
 
 const Flex = styled.div`
@@ -77,9 +79,9 @@ const FlexRow = styled.div`
   justify-content: center;
   align-items: center;
   max-height: ${({ ratioCalc }) => (ratioCalc ? '20px' : '99vh')};
-  transition: max-height .2s ease-in-out;
+  transition: max-height 0.2s ease-in-out;
   form {
-    transition: visibility .2s ease-in-out;
+    transition: visibility 0.2s ease-in-out;
     visibility: ${({ ratioCalc }) => (ratioCalc ? 'hidden' : 'visible')};
   }
 `;
@@ -107,6 +109,11 @@ const App = () => {
     setRatio(result);
   };
 
+  const handleRestart = e => {
+    e.preventDefault();
+    setRatio('');
+  };
+
   const setDimensions = e => {
     if (!imageLoaded) {
       setClipped(false);
@@ -125,40 +132,54 @@ const App = () => {
       </Header>
       <MainContainer>
         <FlexRow cssFlex={1} ratioCalc={!!ratio}>
-          <Form onSubmit={handleSubmit}>
-            <Flex>
-              <Flex direction="column">
-                <InputText
-                  id="inputwidth"
-                  placeholder="Width"
-                  value={width}
-                  onChange={({ currentTarget: { value } }) => {
-                    setWidth(value);
-                  }}
-                />
-                <InputText
-                  id="inputheight"
-                  placeholder="Height"
-                  value={height}
-                  onChange={({ currentTarget: { value } }) => {
-                    setHeight(value);
-                  }}
-                />
-              </Flex>
+          {!ratio && (
+            <Form onSubmit={handleSubmit}>
               <Flex>
-                <CenteredSection>
-                  <Uploader
-                    callback={e => {
-                      setDimensions(e);
+                <Flex direction="column">
+                  <InputText
+                    id="inputwidth"
+                    placeholder="Width"
+                    value={width}
+                    onChange={({ currentTarget: { value } }) => {
+                      setWidth(value);
                     }}
                   />
-                </CenteredSection>
+                  <InputText
+                    id="inputheight"
+                    placeholder="Height"
+                    value={height}
+                    onChange={({ currentTarget: { value } }) => {
+                      setHeight(value);
+                    }}
+                  />
+                </Flex>
+                <Flex>
+                  <CenteredSection>
+                    <Uploader
+                      callback={e => {
+                        setDimensions(e);
+                      }}
+                    />
+                  </CenteredSection>
+                </Flex>
               </Flex>
-            </Flex>
-            <Button visible={!!width && !!height} onClick={handleSubmit}>
-              Calculate
-            </Button>
-          </Form>
+              <Button visible={!!width && !!height} onClick={handleSubmit}>
+                Calculate
+              </Button>
+            </Form>
+          )}
+          {ratio && (
+            <div>
+              <Button
+                color="#636363"
+                background="transparent"
+                visible={!!ratio}
+                onClick={handleRestart}
+              >
+                Restart
+              </Button>
+            </div>
+          )}
         </FlexRow>
         <FlexRowSecondary cssFlex={ratio ? 1 : 0}>
           {ratio && (

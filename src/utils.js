@@ -3,7 +3,7 @@ export function calculateRatio(width, height) {
   if (ratio > 0) {
     return ratio;
   } else {
-    return false;
+    return 0;
   }
 }
 

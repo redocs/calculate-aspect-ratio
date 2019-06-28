@@ -96,7 +96,7 @@ const FlexRowSecondary = styled.div`
 const App = () => {
   const [width, setWidth] = React.useState('');
   const [height, setHeight] = React.useState('');
-  const [ratio, setRatio] = React.useState('');
+  const [ratio, setRatio] = React.useState(null);
   const [clipped, setClipped] = React.useState();
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [imagePreview, setImagePreview] = React.useState('');
@@ -104,6 +104,7 @@ const App = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const result = calculateRatio(width, height);
+    console.log('result', result);
     setImageLoaded(false);
     setClipped(false);
     setRatio(result);
@@ -173,7 +174,7 @@ const App = () => {
               <Button
                 color="#636363"
                 background="transparent"
-                visible={!!ratio}
+                visible={ratio}
                 onClick={handleRestart}
               >
                 Restart

@@ -4,6 +4,7 @@ import { zenburn } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import Vibrant from 'node-vibrant';
 import styled from 'styled-components';
 import ImageRatio from '../imageRatio';
+import PropTypes from 'prop-types';
 
 const Width100 = styled.div`
   width: 100%;
@@ -41,7 +42,7 @@ const ResultImage = props => {
     <Width100>
       <SectionContainer>
         <ImageRatio
-          backgroundColor="#b2644c"
+          backgroundColor={dominantColor}
           findBackgroundColor={false}
           calcRatio={false}
           ratio={ratio}
@@ -53,6 +54,16 @@ const ResultImage = props => {
       </SyntaxHighlighter>
     </Width100>
   );
+};
+
+ResultImage.defaultProps = {
+  src: '',
+  ratio: ''
+};
+
+ResultImage.propTypes = {
+  src: PropTypes.string,
+  ratio: PropTypes.string
 };
 
 export default ResultImage;

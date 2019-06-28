@@ -5,6 +5,7 @@ import InputText from './components/inputText';
 import ResultText from './components/resultText';
 import Uploader from './components/uploader';
 import ResultImage from './components/resultImage';
+import ResizeCalculation from './components/resizeCalculation';
 
 const headerHeight = '50px';
 
@@ -100,6 +101,7 @@ const App = () => {
   const [clipped, setClipped] = React.useState();
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [imagePreview, setImagePreview] = React.useState('');
+  const [showResizeCalc, setShowResizeCalc] = React.useState(false);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -108,6 +110,11 @@ const App = () => {
     setImageLoaded(false);
     setClipped(false);
     setRatio(result);
+  };
+
+  const handleResize = e => {
+    e.preventDefault();
+    setShowResizeCalc(true);
   };
 
   const handleRestart = e => {
@@ -132,8 +139,8 @@ const App = () => {
         <Title>Calculate Aspect Ratio</Title>
       </Header>
       <MainContainer>
-        <FlexRow cssFlex={1} ratioCalc={!!ratio}>
-          {!ratio && (
+        <FlexRow cssFlex={1} ratioCalc={!!ratio || !!showResizeCalc}>
+          {!ratio && !showResizeCalc && (
             <Form onSubmit={handleSubmit}>
               <Flex>
                 <Flex direction="column">
@@ -167,14 +174,17 @@ const App = () => {
               <Button visible={!!width && !!height} onClick={handleSubmit}>
                 Calculate
               </Button>
+              <Button visible={!!width && !!height} onClick={handleResize}>
+                Resize Calculation
+              </Button>
             </Form>
           )}
-          {ratio && (
+          {(ratio || showResizeCalc) && (
             <div>
               <Button
                 color="#636363"
                 background="transparent"
-                visible={ratio}
+                visible={ratio || showResizeCalc}
                 onClick={handleRestart}
               >
                 Restart
@@ -182,7 +192,7 @@ const App = () => {
             </div>
           )}
         </FlexRow>
-        <FlexRowSecondary cssFlex={ratio ? 1 : 0}>
+        <FlexRowSecondary cssFlex={ratio || showResizeCalc ? 1 : 0}>
           {ratio && (
             <CenteredSection direction="column">
               <ResultText
@@ -194,6 +204,11 @@ const App = () => {
                 }}
               />
               {imagePreview && <ResultImage ratio={ratio} src={imagePreview} />}
+            </CenteredSection>
+          )}
+          {showResizeCalc && (
+            <CenteredSection direction="column">
+              <ResizeCalculation width={width} height={height} />
             </CenteredSection>
           )}
         </FlexRowSecondary>

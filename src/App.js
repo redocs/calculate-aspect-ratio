@@ -95,8 +95,8 @@ const FlexRowSecondary = styled.div`
 `;
 
 const App = () => {
-  const [width, setWidth] = React.useState('');
-  const [height, setHeight] = React.useState('');
+  const [width, setWidth] = React.useState(0);
+  const [height, setHeight] = React.useState(0);
   const [ratio, setRatio] = React.useState(null);
   const [clipped, setClipped] = React.useState();
   const [imageLoaded, setImageLoaded] = React.useState(false);
@@ -208,7 +208,10 @@ const App = () => {
           )}
           {showResizeCalc && (
             <CenteredSection direction="column">
-              <ResizeCalculation width={width} height={height} />
+              <ResizeCalculation
+                width={parseInt(width, 10)}
+                height={parseInt(height, 10)}
+              />
             </CenteredSection>
           )}
         </FlexRowSecondary>

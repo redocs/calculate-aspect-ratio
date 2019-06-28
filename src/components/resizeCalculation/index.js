@@ -86,4 +86,14 @@ const ResizeCalculation = props => {
   );
 };
 
+ResizeCalculation.defaultProps = {
+  width: 0,
+  height: 0
+};
+
+ResizeCalculation.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number
+};
+
 export default ResizeCalculation;

@@ -119,6 +119,7 @@ const App = () => {
 
   const handleRestart = e => {
     e.preventDefault();
+    setShowResizeCalc(false);
     setRatio('');
   };
 

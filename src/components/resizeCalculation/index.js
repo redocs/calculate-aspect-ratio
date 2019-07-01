@@ -35,11 +35,24 @@ const ResizeCalculation = props => {
     setWidth2(width2);
   };
 
+  const resetValue = () => {
+    setHeight2(0);
+    setWidth2(0);
+  };
+
   React.useEffect(() => {
-    calcHeight2(startWidth, startHeight, width2);
+    if (startWidth && startWidth !== 0) {
+      calcHeight2(startWidth, startHeight, width2);
+    } else {
+      resetValue();
+    }
   }, [startWidth, width2]);
   React.useEffect(() => {
-    calcWidth2(startWidth, startHeight, height2);
+    if (startHeight && startWidth !== 0) {
+      calcWidth2(startWidth, startHeight, height2);
+    } else {
+      resetValue();
+    }
   }, [startHeight, height2]);
 
   return (

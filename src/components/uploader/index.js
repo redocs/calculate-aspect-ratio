@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
+import iconUploader from './../../assets/iconupload.svg';
 
 const ThumbsContainer = styled.aside`
   display: flex;
@@ -13,8 +14,8 @@ const UploaderInner = styled.div`
 
 const UploaderContainer = styled.div`
   box-sizing: border-box;
-  width: 80%;
-  min-height: 60vh;
+  width: 100%;
+  min-height: calc(100vh - 120px);
   display: flex;
   display: ${({ uploaded }) => (uploaded ? 'none' : 'flex')};
   background: #fff;
@@ -25,7 +26,7 @@ const UploaderContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: 0 auto 15px;
+  margin: 0;
 `;
 
 const CenteredFile = styled.div`
@@ -36,6 +37,11 @@ const CenteredFile = styled.div`
 
 const ImageTag = styled.img`
   max-width: 200px;
+`;
+
+const UploaderInnerLogo = styled.div`
+  width: 100%;
+  min-width: 390px;
 `;
 
 const Uploader = props => {
@@ -95,11 +101,14 @@ const Uploader = props => {
     <UploaderInner>
       <UploaderContainer uploaded={!!isUploaded} {...getRootProps()}>
         <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        )}
+        <UploaderInnerLogo>
+          <img src={iconUploader} alt="Upload File" />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </UploaderInnerLogo>
       </UploaderContainer>
       {isUploaded && <ThumbsContainer>{thumbs}</ThumbsContainer>}
     </UploaderInner>
